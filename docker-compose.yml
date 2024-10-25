@@ -16,8 +16,30 @@ x-backend-volumes: &backend_volumes
 
 services:
 
+    # custom-events:
+    #     # platform: linux/x86_64
+    #     build:
+    #         context: ./custom-events
+    #         dockerfile: ./custom-events/Dockerfile
+    #     container_name: ${COMPOSE_PROJECT_NAME}-custom-events
+    #     networks:
+    #         - internal
+    #     restart: always
+    #     tty: true
+    #     environment:
+    #         KITSU_URL: ${EVENTS_KITSU_URL}
+    #         KITSU_LOGIN: ${EVENTS_KITSU_LOGIN}
+    #         KITSU_PASSWORD: ${EVENTS_KITSU_PASSWORD}
+    #         EXCLUDE_EVENTS: ${EVENTS_EXCLUDE_EVENTS}
+    #         LANG: ${EVENTS_LANG}
+    #     depends_on:
+    #         - zou-app
+    #         - zou-event
+    #         - zou-jobs
+    #         - kitsu
+
     ngrok:
-        # platform: linux/x86_64
+        platform: linux/x86_64
         container_name: ${COMPOSE_PROJECT_NAME}-ngrok
         image: ngrok/ngrok
         command:
@@ -59,7 +81,7 @@ services:
 
 
     kitsu:
-        # platform: linux/x86_64
+        platform: linux/x86_64
         <<: [*base, *env]
         container_name: ${COMPOSE_PROJECT_NAME}-kitsu
         image: registry.gitlab.com/mathbou/docker-cgwire/kitsu:${KITSU_VERSION}
@@ -71,7 +93,7 @@ services:
             - internal
 
     zou-app:
-        # platform: linux/x86_64
+        platform: linux/x86_64
         <<: [*base,*env, *backend_volumes]
         container_name: ${COMPOSE_PROJECT_NAME:?}-zou-app
         image: registry.gitlab.com/mathbou/docker-cgwire/zou:${ZOU_VERSION:-latest}
@@ -83,7 +105,7 @@ services:
             - internal
 
     zou-event:
-        # platform: linux/x86_64
+        platform: linux/x86_64
         <<: [*base, *env]
         container_name: ${COMPOSE_PROJECT_NAME:?}-zou-event
         image: registry.gitlab.com/mathbou/docker-cgwire/zou:${ZOU_VERSION:-latest}
