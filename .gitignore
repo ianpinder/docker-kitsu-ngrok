@@ -1,6 +1,10 @@
 # prevent dependencies to be pushed
 kitsu-dev/
+certs/*
 kitsu/
 zou-dev/
 zou/
 **/_archive/**
+**/env
+**/.env
+**/.DS_Store
